@@ -1,0 +1,115 @@
+{% extends 'booksmanage/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block panneltitle %}
+    作者信息
+{% endblock %}
+{% block searchbox %}
+   <input type="text" class="form-control" id="my-search" placeholder="请输入作者名字" name="mysearch" value="">
+{% endblock %}
+{% block publisehrfield %}
+    <th>编号</th>
+    <th>作者</th>
+    <th>操作</th>
+{% endblock %}
+{% block publisherrecords %}
+    {% for per_author  in author_page %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ per_author.name }}</td>
+
+        <td>
+
+                      <button class="btn btn-danger del-btn" data-authorid="{{ per_author.id }}">删除</button>
+
+                      <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#myModal" data-authorid="{{ per_author.id }}">编辑</button>
+
+                  </td>
+        </tr>
+    {% endfor %}
+ {% endblock %}
+{% block pageconf %}
+
+    {% if author_page.has_previous %}
+        <li><a href="?page={{ author_page.previous_page_number }}">上一页</a></li>
+        {% else %}
+        <li><a href="" disabled>上一页</a></li>
+    {% endif %}
+    {% for i in P_author.page_range %}
+        <li><a href="?page={{ i }}">{{ i }}  </a> </li>
+    {% endfor %}
+    {% if author_page.has_next %}
+        <li><a href="?page={{ author_page.next_page_number }}">下一页</a></li>
+        {% else %}
+    <li><a href="" disabled>下一页</a></li>
+    {% endif %}
+{% endblock %}
+    {% block modalsize %}
+        modal-sm
+        {% endblock %}
+{% block modaldata %}
+    data-modalauthorid="-1"
+{% endblock %}
+         {% block modaltitle %}
+             作者信息
+        {% endblock %}
+         {% block modalcontent %}
+             <div class="form-group row">
+                 <label for="authorname" class="col-sm-5 control-label">作者</label>
+                 <div class="col-sm-10"><input class="form-control" type="text" id="authorname" name="authorname" value=""
+                                               placeholder="作者名字"></div>
+             </div>
+
+        {% endblock %}
+{#删除功能开始#}
+{% block delbtnpublisherid %}
+    'authorid'
+{% endblock %}
+{% block delbtnurl %}
+    '/delauthor/'
+{% endblock %}
+{#删除功能结束#}
+{#添加功能开始#}
+
+{% block clearinputval %}
+    $('#authorname').val('');
+{#                   模态框的数据清空#}
+{% endblock %}
+{% block defpassdata %}
+var dic = {"name": null};
+{% endblock %}
+{% block getpassdata %}
+    dic["name"] = $("#authorname").val();
+{% endblock %}
+  {% block postaddurl %}
+      '/addauthor/'
+
+
+  {% endblock %}
+添加功能结束
+{#      编辑功能开始#}
+ {% block editsetdata %}
+    var edit_id=$(this).data('authorid');
+  $('#authorname').val($ele_tr.children().eq(1).text());
+
+    $("#myModal").data("modalauthorid",edit_id);
+{% endblock %}
+{% block editpassdata %}
+  var dic={'id':null,'name':null,};
+    dic['id']=$("#myModal").data("modalauthorid");
+    dic['name']=$('.modal-body :input').eq(0).val();
+{% endblock %}
+{% block ajaxediturl %}
+    '/editauthor/'
+{% endblock %}
+ {% block resetmodaldataid %}
+     $("#myModal").data("modalauthorid",-1);
+ {% endblock %}
+</body>
+</html>

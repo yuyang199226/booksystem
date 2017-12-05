@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'jquery/jquery-3.2.1.js' %}"></script>
+</head>
+<body>
+<p><input type="text"></p>
+<button id="btn" onclick="send()">click</button>
+<script>
+    $('input').blur(function () {
+        $.ajax({
+            url:'/ajaxhandle/',
+            type:'GET',
+            data:{'username':$('input').val()},
+            success:function(data){
+
+                var user=JSON.parse(data);
+                console.log(user);
+                if(user['flag']){
+                    alert('123');
+                    var $span=$('<span>');
+                     $span.text('用户名已存在');
+                    $('p').append($span);
+                }
+            },
+            complete:function(jqXHR,textStatus){
+            console.log('jqXHR',jqXHR);
+            console.log('textstatus',textStatus);
+            },
+            statusCode:{
+                '403':function(){
+                    alert('403');
+                }
+            }
+        }
+
+
+        )
+    })
+    function send(){
+       var xmlhttp= new XMLHttpRequest();
+       xmlhttp.open('post','/getajax',true);
+       xmlhttp.setRequestHeader()
+        xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+       xmlhttp.send('username=yuyang');
+        xmlhttp.onreadystatechange=function () {
+            if(xmlhttp.readyState==4 && xmlhttp.status==200){
+                alert(xmlhttp.responseText);
+            }
+        }
+
+    }
+
+</script>
+</body>
+</html>

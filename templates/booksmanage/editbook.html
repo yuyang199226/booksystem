@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form action="/editrecords/{{ edit_book.id }}/" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label for="title"  class="col-sm-2 control-label">书名</label>
+                    <div class="col-sm-10"><input type="text" id="title" name="title" value="{{ edit_book.title }}" class="form-control" placeholder="书名"></div>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="price">价格</label>
+                    <div class="col-sm-10"> <input type="text" id="price" name="price" value="{{ edit_book.price }}" class="form-control" placeholder="价格"></div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="pub_date">出版日期</label>
+                    <div class="col-sm-10"><input type="text" id="pub_date" name="pub_date" value="{{ edit_book.pub_date|date:'Y-m-d' }}" class="form-control" placeholder="yyyy-my-dd"></div>
+
+                </div>
+            作者
+                 <div class="form-group">
+                    <select class="form-control" name="auth" multiple>
+                        {% for i in edit_author %}
+                            <option value="{{ i.id }}" selected>{{ i.name }}</option>
+                        {% endfor %}
+                        {% for i in unedit_author %}
+                            <option value="{{ i.id }}">{{ i.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+{#            分类#}
+
+                <div class="form-group">
+                    <select class="form-control" name="catego" multiple>
+                        {% for i in edit_cate %}
+                            <option value="{{ i.id }}" selected>{{ i.name }}</option>
+                        {% endfor %}
+                        {% for i in unedit_cate %}
+                            <option value="{{ i.id }}">{{ i.name }}</option>
+                        {% endfor %}
+                 </select>
+{#                    <label for="publisher">出版社</label>#}
+{#                    <input type="text" id="publisher" name="publisher" value="" class="form-control" placeholder="出版社">#}
+                </div>
+{#              <a href="/addcategory/"><button class="btn btn-warning btn-sm">添加</button></a><span>没有此分类点击添加分类</span>#}
+{#            出版社#}
+
+                 <div class="form-group">
+                 <select class="form-control" name="publish">
+                        {% for i in edit_pub %}
+                            <option value="{{ i.id }}" selected>{{ i.name }}</option>
+                        {% endfor %}
+                        {% for i in unedit_pub %}
+                            <option value="{{ i.id }}">{{ i.name }}</option>
+                        {% endfor %}
+                 </select>
+                </div>
+{#                 <a href="/addpublisher/"><button class="btn btn-warning btn-sm">添加</button></a><span>没有你想要的出版社点击添加出版社</span>#}
+
+
+               <div><button type="submit" class="btn btn-info btn-lg">提交</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

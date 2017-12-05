@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form action="{% url 'addbook' %}" method="post" class="form-horizontal">
+            {% csrf_token %}
+                {% for field in addform %}
+                    <label for="">{{ field.name }}</label>
+
+
+                       <div>{{ field }}</div>
+
+
+                {% endfor %}
+
+               <div><button type="submit" class="btn btn-info btn-md">提交</button></div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 col-sm-offset-3">
+            <a href="/addcategory/"><button class="btn btn-warning">ADD CATEGORY</button></a><span>添加类别</span>
+        </div>
+        <div class="col-sm-3">
+            <a href="/addpublisher/"><button class="btn btn-danger">ADD PUBLISHER</button></a><span>添加出版社</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

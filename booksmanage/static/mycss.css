@@ -1,0 +1,21 @@
+a.my-menu{
+    text-decoration: none;
+}
+.my-d-menu{
+    /* width: 100%; */
+    margin-right: -20px;
+    margin-left: -20px;
+}
+.my-menu{
+    display: inline-block;
+    width: 100%;
+    background-color:#D9E5E0;
+    color:#DA9320;
+    margin-right: 0;
+    font-size: 25px;
+    padding: 10px 15px;
+}
+.my-menu:hover{
+    background-color: #E3B01E;
+    color: #ECF1E3;
+}

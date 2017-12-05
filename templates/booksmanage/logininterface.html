@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <script src="{% static 'jquery/jquery-3.2.1.js' %}"></script>
+    <style>
+        .container-fluid{
+            margin-top: 100px;
+            background-color: #269abc;
+        }
+        .sign{
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+        .account-tip{
+            margin: 10px ;
+            color: #D9E5E0;
+        }
+        .note-sp{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+       <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-md-offset-0">
+            <h1>图书教务系统</h1>
+            <span class="note-sp">{{ message }}</span>
+            <form action="/login/?next={{ nextpath }}" method="POST">
+            <div class="form-group">
+                {% csrf_token %}
+                <label for="username">用户名</label>
+                    <input class="form-control input-sm" type="text" id="username" name="username" value="" placeholder="用户名">
+            </div>
+                <div class="form-group">
+                <label for="password">密码</label>
+                    <input class="form-control input-sm" type="password" id="paasword" name="password" value="" placeholder="密码">
+            </div>
+
+               <div class="form-group" style="text-align: center">
+                   <button class="btn btn-warning" type="submit" >login</button>
+
+               </div>
+            </form>
+
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12 col-md-offset-0 sign">
+        <div class="account-tip">没有账户？</div>
+        <div> <a href="/signup/"><button class="btn btn-default" >sign up</button></a></div>
+
+    </div>
+</div>
+
+</div>
+    </div>
+</div>
+
+</body>
+</html>

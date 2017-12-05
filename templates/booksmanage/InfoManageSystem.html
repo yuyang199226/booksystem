@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+{% load static %}
+{% load mycustomtags %}
+<!-- saved from url=(0041)http://v3.bootcss.com/examples/dashboard/ -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+
+    <title>于洋之家</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'asset/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="{% static 'asset/ie10-viewport-bug-workaround.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'asset/dashboard.css' %}" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{% static 'mycss.css' %}" rel="stylesheet">
+    <style>
+        .user-menu {
+            position: absolute;
+            border: 1px solid gray;
+            width:120px;
+            height: 100px;
+            top:50px;
+            right:10px;
+            display: none;
+        }
+        .user-menu ul,li>a{
+            list-style: none;
+            color: black;
+        }
+    </style>
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="{% static 'asset/ie-emulation-modes-warning.js' %}"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://v3.bootcss.com/examples/dashboard/#">图书管理系统</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+
+            <li>
+
+                <a href="#" id="user-info"><i class="fa fa-user-o" aria-hidden="true"></i> {{ request.user }} <i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+                <div class="user-menu"><ul>
+                    <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> 主页</a></li>
+                    <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i> 设置</a></li>
+                    <li><a href="/changepassword/"><i class="fa fa-key" aria-hidden="true"></i> 修改密码</a></li>
+                </ul></div>
+            </li>
+            <li><a href="/login/"><i class="fa fa-address-book" aria-hidden="true"></i> 登录</a></li>
+            <li><a href="/logout/"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
+            <li><a href="#"><i class="fa fa-question-circle" aria-hidden="true"></i> 帮助</a></li>
+          </ul>
+{#          <form class="navbar-form navbar-right">#}
+{#            <input type="text" class="form-control" placeholder="Search...">#}
+{#          </form>#}
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <div class="my-d-menu" data-toggle="collapse" data-target="#menu1">
+            <a class="my-menu"> <i class="fa fa-book" aria-hidden="true"></i> 书籍管理</a>
+          </div>
+          <ul id="menu1" class="nav nav-sidebar collapse">
+            <li class="active"><a href="/index/#book">总览 <span class="sr-only">(current)</span></a></li>
+
+          </ul>
+          <div class="my-d-menu" data-toggle="collapse" data-target="#menu2">
+            <a class="my-menu"><i class="fa fa-file" aria-hidden="true"></i> 出版社管理</a>
+          </div>
+          <ul id="menu2" class="nav nav-sidebar collapse">
+            <li><a href="/publisher/index/">显示出版社</a></li>
+
+
+          </ul>
+          <div class="my-d-menu" data-toggle="collapse" data-target="#menu3">
+            <a class="my-menu"><i class="fa fa-user" aria-hidden="true"></i> 作者管理</a>
+          </div>
+          <ul id="menu3" class="nav nav-sidebar collapse">
+            <li><a href="/author/index/">显示作者</a></li>
+
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="panel panel-primary">
+      <div class="panel-heading" style="background-color:goldenrod">
+        <h3 class="panel-title">图书信息</h3>
+      </div>
+      <!-- 面板体开始 -->
+      <div class="panel-body">
+        <div class="row">
+          
+    
+        <div class="my-btn col-md-4">
+
+            <a href="/addbook/" class="btn btn-default">添加</a>
+        </div>
+        <div class="my-search-box col-md-4 col-md-offset-4">
+          <form class="form-inline pull-right" action="/searchbook/" method="get">
+            <div class="form-group">
+              <label class="sr-only" for="my-search"></label>
+              <input type="text" class="form-control" id="my-search" placeholder="请输入书名" name="mysearch" value="">
+            </div>
+            <button type="submit" class="btn btn-warning">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </form>
+        </div>
+        </div>
+        <!-- form start -->
+        <table class="table">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>书名</th>
+                    <th>出版日期</th>
+                    <th>价格</th>
+                    <th>出版社</th>
+                    <th>类别</th>
+                    <th>作者</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for bk_record  in book_list %}
+                    <tr>
+                    <td>{{ bk_record.id }}</td>
+                    <td>{{ bk_record.title }}</td>
+                    <td>{{ bk_record.pub_date|date:'y-m-d' }}</td>
+                    <td>{{ bk_record.price }}</td>
+                    <td>{{ bk_record.publish.name }}</td>
+                    <td>{{ bk_record.catego|traversal }}</td>
+
+                    <td>{{ bk_record.auth|traversal }}</td>
+
+                    <td>
+
+                            <button class="btn btn-danger del-btn">删除</button>
+
+
+                            <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#myModal" data-bookid="{{ bk_record.id }}">编辑</button>
+
+                    </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+
+        <!-- form end -->
+        <div class="row">
+          <div class="col-md-4 col-md-offset-8">
+            <nav aria-label="Page navigation">
+              <ul class="pagination pull-right">
+
+                    {% if book_list.has_previous %}
+                        <li><a href="/?page={{ book_list.previous_page_number }}">上一页</a></li>
+                        {% else %}
+                        <li class="previous disabled"><a href="#">上一页</a></li>
+                    {% endif %}
+
+                  {% for i in books.page_range %}
+                      <li><a href="/?page={{ i }}">{{ i }}</a></li>
+                  {% endfor %}
+
+                {% if book_list.has_next %}
+                        <li><a href="/?page={{ book_list.next_page_number }}">下一页</a></li>
+                        {% else %}
+                        <li class="next disabled"><a href="#" >下一页</a></li>
+                    {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+        </div>
+      </div>
+    </div>
+     <!-- 模态框开始 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal" data-modalbookid="-1">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">书籍 信息</h4>
+      </div>
+      <div class="modal-body">
+        <!-- 表单开始 -->
+{#        <form class="" action="" method="">#}
+                         <div class="form-group">
+                    <label for="title"  class="col-sm-2 control-label">书名</label>
+                    <div class="col-sm-10"><input type="text" id="title" name="title" value="" class="form-control" placeholder="书名"></div>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="price">价格</label>
+                    <div class="col-sm-10"> <input type="text" id="price" name="price" value="" class="form-control" placeholder="价格"></div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="pub_date">出版日期</label>
+                    <div class="col-sm-10"><input type="date" id="pub_date" name="pub_date" value="" class="form-control" placeholder="y-m-d"></div>
+
+                </div>
+            <label class="col-sm-2 control-label" for="">作者</label>
+                 <div class="form-group">
+                    <select id="author" class="form-control author-select" name="auth" multiple>
+                    </select>
+                </div>
+
+{#            分类#}
+                 <label class="col-sm-2 control-label" for="">类别</label>
+                <div class="form-group">
+                    <select id="category" class="form-control category-select" name="catego" multiple>
+                    </select>
+                </div>
+
+{#            出版社#}
+        <label class="col-sm-2 control-label" for="">出版社</label>
+                 <div class="form-group">
+                    <select id="publisher" class="form-control publisher-select" name="publish">
+                    </select>
+                </div>
+{#        </form>#}
+
+      <!-- 表单结束 -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button  id="save-add" type="button" class="btn btn-primary">添加完成</button>
+        <button  id="save-edit" type="button" class="btn btn-primary">编辑完成</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'asset/jquery.min.js' %}"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="{% static 'asset/bootstrap.min.js' %}"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="{% static 'asset/holder.min.js' %}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{% static 'asset/ie10-viewport-bug-workaround.js' %}"></script>
+    <script>
+        $('tbody').on('click','.del-btn',function () {
+          var id=$(this).parent().parent().children().eq(0).text();
+            console.log(id);
+            var $btn=$(this);
+            console.log($btn.data('bookid'));
+            $.ajax({
+                url:'/delrecords/',
+                type:'post',
+                data:{'id':id},
+                success:function (data) {
+                    var curTr=$btn.parent().parent();
+                    console.log(curTr);
+{#                    btn所在的tr标签#}
+                    curTr.remove();
+                }
+            })
+        });
+    $('#add-btn').click(function () {
+      $('#save-edit').attr('disabled',true);
+      $('#save-add').attr('disabled',false);
+        $('#pub_date').attr('type','date');
+      $('#title').val('');
+      $('#price').val('');
+        $.ajax(
+                {
+                    url:'/addbook/',
+                    type:'get',
+                    success:function(data){
+                        dic=JSON.parse(data);
+                        $('#author').empty();
+                        $('#publisher').empty();
+                        $('#category').empty();
+                        for(var i=0;i<dic['author'].length;i++){
+                            var $opt=$('<option>');
+                            $opt.text(dic['author'][i][1]);
+                            $opt.val(dic['author'][i][0]);
+                            $('#author').append($opt);
+                        }
+                        for(var i=0;i<dic['publisher'].length;i++){
+                            var $opt=$('<option>');
+                            $opt.text(dic['publisher'][i][1]);
+                            $opt.val(dic['publisher'][i][0]);
+                            $('#publisher').append($opt);
+                        }
+                         for(var i=0;i<dic['category'].length;i++){
+                            var $opt=$('<option>');
+                            $opt.text(dic['category'][i][1]);
+                            $opt.val(dic['category'][i][0]);
+                            $('#category').append($opt);
+                        }
+                                      }
+                }
+            )
+    });
+    $('#save-add').click(function () {
+{#        1 将模态框中输入的图书信息取到，（1）找到标签，（2）获取值，赋给变量#}
+{#        如何获得是哪个按钮点击了编辑2  将数据传给服务端，获取相应#}
+        var dic={"title":null,"price":null,"pub_date":null,"publisher":null};
+
+        dic["title"]=$(".modal-body #title").val();
+        dic["price"]=$(".modal-body #price").val();
+        dic["pub_date"]=$(".modal-body #pub_date").val();
+        dic["author"] = $("#author").val();
+        dic["category"] = $("#category").val();
+
+        dic["publisher"]=$("#publisher").val();
+{#        只有一个数值#}
+        console.log(dic);
+        $.ajax({
+                url:'/addbook/',
+                type:'POST',
+                data:dic,
+                traditional: true,
+                success:function (data) {
+                    data_str=JSON.parse(data);
+                    alert(data_str);
+                }
+            })
+        });
+{#编辑功能，ajax实现 #}
+{#        1为编辑按钮绑定事件单击编辑按钮打开模态框，模态框的值是编辑的书的值#}
+{#        填写完成后，单击编辑成功按钮，触发ajax,向客户端发送数据，后台更新，前端修改，#}
+$('tbody').on('click','.edit-btn',function () {
+    $('#save-add').attr('disabled',true);
+    $('#save-edit').attr('disabled',false);
+    var $ele_tr=$(this).parent().parent();
+    var edit_id=$(this).data('bookid');
+  $('#title').val($ele_tr.children().eq(1).text());
+  $('#pub_date').attr('type','text');
+  $('#pub_date').val($ele_tr.children().eq(2).text());
+  $('#price').val($ele_tr.children().eq(3).text());
+
+    $("#myModal").data("modalbookid",edit_id);
+     $.ajax(
+                {
+                    url:'/editrecords/',
+                    type:'get',
+                    data:{'id':edit_id},
+                    success:function(data){
+                        dic=JSON.parse(data);
+                        console.log(dic);
+                        $('#author').empty();
+                        $('#publisher').empty();
+                        $('#category').empty();
+{#                        作者#}
+                        for(var i=0;i<dic['author']['edit_author'].length;i++){
+                            var $opt=$('<option>');
+                            $opt.text(dic['author']['edit_author'][i][1]);
+                            $opt.val(dic['author']['edit_author'][i][0]);
+                            $opt.attr('selected',true);
+                            $('#author').append($opt);
+                        }
+                         for(var i=0;i<dic['author']['unedit_author'].length;i++){
+                            var $opt=$('<option>');
+                            $opt.text(dic['author']['unedit_author'][i][1]);
+                            $opt.val(dic['author']['unedit_author'][i][0]);
+
+                            $('#author').append($opt);
+                        }
+{#                        分类#}
+                        for(var i=0;i<dic['category']['edit_cate'].length;i++){
+                            var $opt=$('<option>');
+                            $opt.text(dic['category']['edit_cate'][i][1]);
+                            $opt.val(dic['category']['edit_cate'][i][0]);
+                            $opt.attr('selected','true');
+                            $('#category').append($opt);
+                        }
+                         for(var i=0;i<dic['category']['unedit_cate'].length;i++){
+                            var $opt=$('<option>');
+                            $opt.text(dic['category']['unedit_cate'][i][1]);
+                            $opt.val(dic['category']['unedit_cate'][i][0]);
+
+                            $('#category').append($opt);
+                        }
+{#                        出版社#}
+{#                         for(var i=0;i<dic['category']['edit_cate'].length;i++){#}
+                        var $opt=$('<option>');
+                        $opt.text(dic['publisher']['edit_pub'][1]);
+                        $opt.val(dic['publisher']['edit_pub'][0]);
+                        $opt.attr('selected');
+                        $('#publisher').append($opt);
+{#                        }#}
+                         for(var i=0;i<dic['publisher']['unedit_pub'].length;i++){
+                            var $opt=$('<option>');
+                            $opt.text(dic['publisher']['unedit_pub'][i][1]);
+                            $opt.val(dic['publisher']['unedit_pub'][i][0]);
+
+                            $('#publisher').append($opt);
+                        }
+
+                                      }
+                }
+            )
+
+});
+{# not finished#}
+
+
+{# click save-edit button ,pass the book message to server ,and save it in database#}
+$('#save-edit').click(function(){
+{#    console.log($('.modal-body :input'));#}
+{#    console.log($('.modal-body :input').length);#}
+    var dic={'id':null,'title':null,'price':null,'pub_date':null,'author':[],'publisher':null,'category':[]};
+    dic['id']=$("#myModal").data("modalbookid");
+    dic['title']=$('.modal-body :input').eq(0).val();
+    dic['price']=$('.modal-body :input').eq(1).val();
+    dic['pub_date']=$('.modal-body :input').eq(2).val();
+    dic['author']=$('.modal-body :input').eq(3).val();
+    dic['category']=$('.modal-body :input').eq(4).val();
+    dic['publisher']=$('.modal-body :input').eq(5).val();
+    console.log(dic);
+    $.ajax({
+        url:'/editrecords/',
+        type:'post',
+        data:dic,
+        traditional:true,
+        success:function (data) {
+            parser_data=JSON.parse(data);
+            $("#myModal").data("modalbookid",-1);
+            alert(parser_data);
+        }
+    })
+});
+
+
+$('#user-info').click(function () {
+    $(".user-menu").toggle()
+});
+{#$('#my-search').keyup(function (e) {#}
+{#    console.log(e.keyCode);#}
+{#    $.ajax({#}
+{#        url:'/filterkey/',#}
+{#        type:'GET',#}
+{#        data:{'word':}#}
+{#        }#}
+{#    )})#}
+    </script>
+  
+
+</body>
+</html>
